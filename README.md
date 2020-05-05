@@ -20,6 +20,21 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+### Running the app
+
+```bash
+# development/debug within WebStorm (ts-node-dev)
+$ npm run start:node-dev
+
+# nodemon with remote debugger
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+
+# default run (ts-node)
+$ npm start
+```
 
 ## Test
 
