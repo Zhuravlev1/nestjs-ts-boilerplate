@@ -3,10 +3,10 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   healthCheck() {
-    const healthCheck = {
+    const healthCheck /*= {*/
       uptime: process.uptime(),
       message: 'OK',
-      timestamp: // new Date().toISOString()
+      timestamp: new Date().toISOString()
     };
     try {
       return healthCheck;

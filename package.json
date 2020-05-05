@@ -75,9 +75,8 @@
   "lint-staged": {
     "linters": {
       "*.ts": [
-        "tslint --project . --format verbose --fix",
-        "prettier --write",
-        "git add"
+        "eslint '*/**/*.{js,ts,json}' --quiet --fix",
+        "prettier --write"
       ]
     }
   }
