@@ -1,8 +1,8 @@
 {
-  "name": "milo-o",
+  "name": "nestjs-ts-boilerplate",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Volodymyr Zhuravlov",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -60,6 +60,7 @@
     "eslint-plugin-import": "2.20.1",
     "husky": "4.2.5",
     "jest": "25.1.0",
+    "lint-staged": "10.2.2",
     "nodemon": "2.0.3",
     "pre-commit": "^1.2.2",
     "prettier": "1.19.1",
@@ -78,11 +79,9 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "*.ts": [
-        "eslint '*/**/*.{js,ts,json}' --quiet --fix",
-        "prettier --write"
-      ]
-    }
+    "*.ts": [
+      "eslint '*/**/*.{js,ts,json}' --quiet --fix",
+      "prettier --write"
+    ]
   }
 }
