@@ -6,7 +6,7 @@ export class AppService {
     const healthCheck = {
       uptime: process.uptime(),
       message: 'OK',
-      timestamp: new Date().toISOString()
+      timestamp: // new Date().toISOString()
     };
     try {
       return healthCheck;

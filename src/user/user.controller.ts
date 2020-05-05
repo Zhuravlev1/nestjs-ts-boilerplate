@@ -7,7 +7,7 @@ import {
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiInternalServerErrorResponse,
-  ApiOkResponse,
+  ApiOperation, ApiCreatedResponse,
 } from '@nestjs/swagger';
 import { ApiException } from '../shared';
 
@@ -20,10 +20,11 @@ export class UserController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create user profile' })
   @ApiInternalServerErrorResponse({ type: ApiException })
   @ApiForbiddenResponse({ type: ApiException })
   @ApiNotFoundResponse({ type: ApiException })
-  @ApiOkResponse({ type: UserDto })
+  @ApiCreatedResponse({ type: UserDto })
   async create(@Body() userData: CreateUserDto) {
     return this.userService.create(userData);
   }

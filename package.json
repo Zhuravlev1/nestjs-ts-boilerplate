@@ -18,10 +18,10 @@
     "start:node-dev-alldebug": "cross-env NODE_ENV=dev DEBUG=* ts-node-dev src/main.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "check-types": "tsc --project tsconfig.json --noEmit",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test": "jest -c jest.config.api.js --runInBand",
+    "test:watch": "jest -c jest.config.api.js --runInBand --watch",
+    "test:cov": "jest -c jest.config.api.js --runInBand --coverage",
+    "test:debug": "node -c jest.config.api.js --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
@@ -54,8 +54,10 @@
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-import": "2.20.1",
+    "husky": "4.2.5",
     "jest": "25.1.0",
     "nodemon": "2.0.3",
+    "pre-commit": "^1.2.2",
     "prettier": "1.19.1",
     "supertest": "4.0.2",
     "ts-jest": "25.2.1",
@@ -64,18 +66,19 @@
     "tsconfig-paths": "3.9.0",
     "typescript": "3.8.3"
   },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "*.ts": [
+        "tslint --project . --format verbose --fix",
+        "prettier --write",
+        "git add"
+      ]
+    }
   }
 }

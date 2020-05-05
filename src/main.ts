@@ -6,7 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
-  app.setGlobalPrefix('/api');
+  app.setGlobalPrefix('api');
+
   const options = new DocumentBuilder()
     .setTitle('Milo-o')
     .setDescription('API Description goes here')
@@ -16,7 +17,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('/api/docs', app, document);
 
   // app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(AppModule.port);
