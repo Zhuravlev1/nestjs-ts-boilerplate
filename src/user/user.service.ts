@@ -2,11 +2,12 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { CreateUserDto, UserDto } from './dto';
+import { CreateUserDto, LoginUserDto, UserDto } from './dto';
 import { validate } from 'class-validator';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BaseCrudService } from '../shared/services/base-crud.service';
+import { createHmac } from 'crypto';
 
 @Injectable()
 export class UserService extends BaseCrudService<UserEntity, UserDto, CreateUserDto, UpdateUserDto> {
@@ -15,6 +16,16 @@ export class UserService extends BaseCrudService<UserEntity, UserDto, CreateUser
     protected readonly repository: Repository<UserEntity>,
   ) {
     super();
+  }
+
+  async findByEmailAndPassword(loginUserDto: LoginUserDto): Promise<UserDto> {
+    const encryptedPassword = createHmac('sha256', loginUserDto.password).digest('hex');
+    const user = await this.repository.findOne({
+      email: loginUserDto.email,
+      password: encryptedPassword,
+    });
+
+    return user ? this.buildDto(user) : null;
   }
 
   async create(dto: CreateUserDto): Promise<UserDto> {
@@ -49,7 +60,7 @@ export class UserService extends BaseCrudService<UserEntity, UserDto, CreateUser
 
   protected buildDto(user: UserEntity): UserDto {
     delete user.password;
-    return {...user};
+    return { ...user };
   }
 
   protected async createEntity(createDto: CreateUserDto): Promise<UserEntity> {

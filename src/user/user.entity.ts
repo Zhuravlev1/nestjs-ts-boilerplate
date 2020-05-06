@@ -1,6 +1,8 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import { BaseEntity } from '../shared';
+import { createHmac } from 'crypto';
+import { TokenEntity } from '../token/token.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -16,4 +18,15 @@ export class UserEntity extends BaseEntity {
 
   @Column()
   password: string;
+
+  @OneToMany(type => TokenEntity, token => token.user)
+  tokens: TokenEntity[];
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  hashPassword() {
+    if (this.password) {
+      this.password = createHmac('sha256', this.password).digest('hex');
+    }
+  }
 }
