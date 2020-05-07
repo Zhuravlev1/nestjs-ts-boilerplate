@@ -12,9 +12,9 @@ export abstract class BaseEntity {
 
   @ApiProperty()
   @CreateDateColumn()
-  createdAt: string;
+  created_at: string;
 
   @ApiProperty()
   @UpdateDateColumn()
-  updatedAt: string;
+  updated_at: string;
 }

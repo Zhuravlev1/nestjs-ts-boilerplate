@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseDto } from '../../shared';
+import { TokenEntity } from '../../token/token.entity';
 
 export class UserDto extends BaseDto{
   @ApiProperty()
@@ -12,5 +13,5 @@ export class UserDto extends BaseDto{
   email: string;
 
   @ApiProperty()
-  password?: string;
+  tokens: TokenEntity[];
 }

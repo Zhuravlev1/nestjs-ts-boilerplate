@@ -23,8 +23,7 @@ export class UserService extends BaseCrudService<UserEntity, UserDto, CreateUser
     const user = await this.repository.findOne({
       email: loginUserDto.email,
       password: encryptedPassword,
-    });
-
+    }, { relations: ['tokens'] });
     return user ? this.buildDto(user) : null;
   }
 
@@ -59,7 +58,6 @@ export class UserService extends BaseCrudService<UserEntity, UserDto, CreateUser
   }
 
   protected buildDto(user: UserEntity): UserDto {
-    delete user.password;
     return { ...user };
   }
 

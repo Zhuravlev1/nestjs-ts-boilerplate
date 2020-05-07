@@ -5,8 +5,8 @@ export class BaseDto {
   id: number;
 
   @ApiProperty()
-  createdAt: string;
+  created_at: string;
 
   @ApiProperty()
-  updatedAt: string;
+  updated_at: string;
 }

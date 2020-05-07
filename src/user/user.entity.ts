@@ -4,7 +4,7 @@ import { BaseEntity } from '../shared';
 import { createHmac } from 'crypto';
 import { TokenEntity } from '../token/token.entity';
 
-@Entity('users')
+@Entity('user')
 export class UserEntity extends BaseEntity {
   @Column({ nullable: false })
   firstName: string;
@@ -16,7 +16,7 @@ export class UserEntity extends BaseEntity {
   @IsEmail()
   email: string;
 
-  @Column()
+  @Column({select: false})
   password: string;
 
   @OneToMany(type => TokenEntity, token => token.user)
