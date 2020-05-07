@@ -5,7 +5,8 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+  }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -26,5 +27,16 @@ export class AuthController {
   async logout(@Headers('authorization') accessToken: string) {
     accessToken = accessToken.replace('Bearer ', '');
     await this.authService.logout(accessToken);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('refresh/token')
+  async refreshToken(
+    @Headers('authorization') refreshToken: string,
+    @Req() req: any,
+  ) {
+    const { email, id } = req.user;
+    refreshToken = refreshToken.replace('Bearer ', '');
+    return this.authService.refreshToken(refreshToken, id, email);
   }
 }
