@@ -6,7 +6,7 @@ dotenv.config({ path: '.env' });
 
 @Injectable()
 export class ConfigService {
-  getEnvVariable(key: string, throwOnMissing: boolean = true): string {
+  getEnvVariable(key: string, throwOnMissing = true): string {
     const variable = process.env[key];
     if (!variable && throwOnMissing) {
       throw new Error(`Environment variable ${key} is undefined`);

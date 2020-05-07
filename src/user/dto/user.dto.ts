@@ -13,5 +13,5 @@ export class UserDto extends BaseDto{
   email: string;
 
   @ApiProperty()
-  tokens: TokenEntity[];
+  tokens?: TokenEntity[];
 }

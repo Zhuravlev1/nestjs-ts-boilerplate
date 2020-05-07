@@ -35,8 +35,8 @@ describe('UserController', () => {
   describe('check methods', () => {
     const fakeUserData: UserDto = {
       id: 99999,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
       email: 'test@gmail.com',
       firstName: 'Jon',
       lastName: 'Snow'
