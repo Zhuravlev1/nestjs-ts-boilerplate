@@ -1,4 +1,4 @@
-import { Entity, Column, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
+import { Entity, Column, BeforeInsert, BeforeUpdate, OneToMany, Index } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import { BaseEntity } from '../shared';
 import { createHmac } from 'crypto';
@@ -16,8 +16,12 @@ export class UserEntity extends BaseEntity {
   @IsEmail()
   email: string;
 
-  @Column({select: false})
+  @Column({select: false,  nullable: true})
   password: string;
+
+  @Index()
+  @Column({select: false,  nullable: true})
+  facebookId: string;
 
   @OneToMany(type => TokenEntity, token => token.user)
   tokens: TokenEntity[];

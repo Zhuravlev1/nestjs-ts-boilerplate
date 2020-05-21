@@ -57,6 +57,26 @@ export class UserService extends BaseCrudService<UserEntity, UserDto, CreateUser
     }
   }
 
+  async findOrCreateByFacebookId(profile: any): Promise<UserDto> {
+    const user = await this.repository
+      .createQueryBuilder('user')
+      .where('user.facebookId = :facebookId', { facebookId: profile.id })
+      .getOne();
+
+    if (user) {
+      return this.buildDto(user);
+    }
+
+    const newUser = await this.createEntity({
+      email: profile.email,
+      lastName: profile.lastName,
+      firstName: profile.firstName
+    });
+
+    const savedUser = await this.repository.save(newUser);
+    return this.buildDto(savedUser);
+  }
+
   protected buildDto(user: UserEntity): UserDto {
     return { ...user };
   }
@@ -73,7 +93,7 @@ export class UserService extends BaseCrudService<UserEntity, UserDto, CreateUser
     newUser.firstName = firstName;
     newUser.lastName = lastName;
     newUser.email = email;
-    newUser.password = password;
+    newUser.password = password ? password : null;
 
     return newUser;
   }

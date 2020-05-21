@@ -10,6 +10,7 @@ import { UserService } from '../user/user.service';
 import { JwtStrategy, LocalStrategy } from './strategies';
 import { AuthController } from './auth.controller';
 import { TokenEntity } from '../token/token.entity';
+import { FacebookStrategy } from './strategies/facebook.strategy';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TokenEntity } from '../token/token.entity';
     UserService,
     JwtStrategy,
     LocalStrategy,
+    FacebookStrategy,
   ],
   exports: [AuthService],
   controllers: [AuthController],
