@@ -2,6 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from './shared';
+import { ValidationFilter } from './shared/filters/validation.filter';
+import { customExceptionFactory } from './shared/error/exceptionFactory';
+import {ValidationPipe} from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +25,17 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/api/docs', app, document);
   }
+
+  app.useGlobalFilters(
+    new ValidationFilter(),
+  );
+
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    transform: true,
+    // skipMissingProperties: true,
+    exceptionFactory: customExceptionFactory,
+  }));
 
   // app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(AppModule.port);
